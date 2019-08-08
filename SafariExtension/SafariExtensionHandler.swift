@@ -2,8 +2,7 @@
 //  SafariExtensionHandler.swift
 //  SafariExtension
 //
-//  Created by Michal Rentka on 30/05/2019.
-//  Copyright © 2019 Michal Rentka. All rights reserved.
+//  Copyright © 2019 Corporation for Digital Scholarship
 //
 
 import SafariServices
@@ -45,8 +44,11 @@ class SafariExtensionHandler: SFSafariExtensionHandler {
     }
     
     override func toolbarItemClicked(in window: SFSafariWindow) {
-        // This method will be called when your toolbar item is clicked.
-        NSLog("The extension's toolbar item was clicked")
+        window.getActiveTab { (activeTab) in
+            activeTab?.getActivePage { (activePage) in
+                activePage?.dispatchMessageToScript(withName: "translate", userInfo: nil)
+            }
+        }
     }
     
     override func validateToolbarItem(in window: SFSafariWindow, validationHandler: @escaping ((Bool, String) -> Void)) {

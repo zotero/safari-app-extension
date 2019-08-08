@@ -48,16 +48,12 @@
 		</dict>
 		<key>SFSafariWebsiteAccess</key>
 		<dict>
-			<key>Allowed Domains</key>
-			<array>
-				<string>*.webkit.org</string>
-			</array>
 			<key>Level</key>
-			<string>Some</string>
+			<string>All</string>
 		</dict>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2019 Michal Rentka. All rights reserved.</string>
+	<string>Copyright © 2019 Corporation for Digital Scholarship</string>
 	<key>NSHumanReadableDescription</key>
 	<string>This is a Safari Extension. You should tell us what your extension does here.</string>
 </dict>
