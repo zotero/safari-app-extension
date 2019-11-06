@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>SafariExtension</string>
+	<string>Zotero Extension</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>5.0.60</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSMinimumSystemVersion</key>
@@ -32,7 +32,199 @@
 		<array>
 			<dict>
 				<key>Script</key>
-				<string>script.js</string>
+				<string>safari/node_modules.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero_config.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/promise.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/http.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/proxy.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/cachedTypes.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/date.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/debug.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/errors_webkit.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/openurl.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/xregexp/xregexp.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/xregexp/addons/build.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/xregexp/addons/matchrecursive.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/xregexp/addons/unicode/unicode-base.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/xregexp/addons/unicode/unicode-categories.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/xregexp/addons/unicode/unicode-zotero.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/rdf/init.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/rdf/uri.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/rdf/term.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/rdf/identity.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/rdf/match.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/rdf/rdfparser.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/translation/translate.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/translation/translator.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/translate_item.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/connectorTypeSchemaData.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/utilities.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero/utilities_translate.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/utilities.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/inject/http.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/inject/translate_inject.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/integration/connectorIntegration.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/messages.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/messaging_inject.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/inject/progressWindow_inject.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/inject/modalPrompt_inject.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/i18n.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/inject/inject.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/inject_safari.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/lib/react.js</string>
+                <key>Allowed URL Patterns</key>
+                <array><string>https://docs.google.com/document/*</string></array>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/lib/react-dom.js</string>
+                <key>Allowed URL Patterns</key>
+                <array><string>https://docs.google.com/document/*</string></array>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/lib/prop-types.js</string>
+                <key>Allowed URL Patterns</key>
+                <array><string>https://docs.google.com/document/*</string></array>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero-google-docs-integration/kixAddZoteroMenu.js</string>
+                <key>Allowed URL Patterns</key>
+                <array><string>https://docs.google.com/document/*</string></array>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero-google-docs-integration/client.js</string>
+                <key>Allowed URL Patterns</key>
+                <array><string>https://docs.google.com/document/*</string></array>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/zotero-google-docs-integration/ui.js</string>
+                <key>Allowed URL Patterns</key>
+                <array><string>https://docs.google.com/document/*</string></array>
 			</dict>
 		</array>
 		<key>SFSafariToolbarItem</key>
@@ -42,10 +234,73 @@
 			<key>Identifier</key>
 			<string>Button</string>
 			<key>Image</key>
-			<string>ToolbarItemIcon.pdf</string>
+			<string>safari/images/toolbar/zotero-new-z-16px.png</string>
 			<key>Label</key>
 			<string>Your Button</string>
 		</dict>
+		<key>SFSafariContextMenu</key>
+		<array>
+			<dict>
+				<key>Text</key>
+				<string>menu0</string>
+				<key>Command</key>
+				<string>menu0</string>
+			</dict>
+			<dict>
+				<key>Text</key>
+				<string>menu1</string>
+				<key>Command</key>
+				<string>menu1</string>
+			</dict>
+			<dict>
+				<key>Text</key>
+				<string>menu2</string>
+				<key>Command</key>
+				<string>menu2</string>
+			</dict>
+			<dict>
+				<key>Text</key>
+				<string>menu3</string>
+				<key>Command</key>
+				<string>menu3</string>
+			</dict>
+			<dict>
+				<key>Text</key>
+				<string>menu4</string>
+				<key>Command</key>
+				<string>menu4</string>
+			</dict>
+			<dict>
+				<key>Text</key>
+				<string>menu5</string>
+				<key>Command</key>
+				<string>menu5</string>
+			</dict>
+			<dict>
+				<key>Text</key>
+				<string>menu6</string>
+				<key>Command</key>
+				<string>menu6</string>
+			</dict>
+			<dict>
+				<key>Text</key>
+				<string>menu7</string>
+				<key>Command</key>
+				<string>menu7</string>
+			</dict>
+			<dict>
+				<key>Text</key>
+				<string>menu8</string>
+				<key>Command</key>
+				<string>menu8</string>
+			</dict>
+			<dict>
+				<key>Text</key>
+				<string>menu9</string>
+				<key>Command</key>
+				<string>menu9</string>
+			</dict>
+		</array>
 		<key>SFSafariWebsiteAccess</key>
 		<dict>
 			<key>Level</key>
@@ -55,6 +310,6 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2019 Corporation for Digital Scholarship</string>
 	<key>NSHumanReadableDescription</key>
-	<string>This is a Safari Extension. You should tell us what your extension does here.</string>
+	<string>Saves references to Zotero from Safari.</string>
 </dict>
 </plist>
