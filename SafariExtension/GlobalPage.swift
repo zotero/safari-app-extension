@@ -23,7 +23,7 @@ class GlobalPage: NSObject {
 			let context = JSContext()
 			context?.exceptionHandler = onError
 			
-			// Add setTimeout
+			// Add setTimeout, setInterval, etc.
 			JSInterval.provideToContext(context: context!)
 			
 			// Add console.log

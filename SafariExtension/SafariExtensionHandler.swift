@@ -17,6 +17,10 @@ struct ApiResponseData: Decodable {
 class SafariExtensionHandler: SFSafariExtensionHandler {
 	override init() {
 		super.init()
+		// We cannot avoid instantiating the global page here
+		// otherwise the garbage collector deallocates tabs and
+		// pages while lazy instantiating it and we run into
+		// illegal memory access issues
 		_ = GlobalPage._sendMessageToGlobalPage
 	}
 	
@@ -76,7 +80,8 @@ class SafariExtensionHandler: SFSafariExtensionHandler {
 		}
     }
     
-    override func popoverViewController() -> SFSafariExtensionViewController {
-        return SafariExtensionViewController.shared
-    }
+	// Unused
+	override func popoverViewController() -> SFSafariExtensionViewController {
+		return SafariExtensionViewController.shared
+	}
 }
