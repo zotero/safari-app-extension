@@ -323,6 +323,10 @@
 			<key>Level</key>
 			<string>All</string>
 		</dict>
+		<key>SFSafariExtensionBundleIdentifiersToUninstall</key>
+		<array>
+			<string>org.zotero.zoteroconnectorforsafari</string>
+		</array>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2019 Corporation for Digital Scholarship</string>
