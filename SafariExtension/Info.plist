@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Zotero Extension</string>
+	<string>Zotero Connector</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -196,40 +196,115 @@
 				<string>safari/inject_safari.js</string>
 			</dict>
 			<dict>
+				<key>Allowed URL Patterns</key>
+				<array>
+					<string>https://docs.google.com/document/*</string>
+				</array>
 				<key>Script</key>
 				<string>safari/lib/react.js</string>
-                <key>Allowed URL Patterns</key>
-                <array><string>https://docs.google.com/document/*</string></array>
 			</dict>
 			<dict>
+				<key>Allowed URL Patterns</key>
+				<array>
+					<string>https://docs.google.com/document/*</string>
+				</array>
 				<key>Script</key>
 				<string>safari/lib/react-dom.js</string>
-                <key>Allowed URL Patterns</key>
-                <array><string>https://docs.google.com/document/*</string></array>
 			</dict>
 			<dict>
+				<key>Allowed URL Patterns</key>
+				<array>
+					<string>https://docs.google.com/document/*</string>
+				</array>
 				<key>Script</key>
 				<string>safari/lib/prop-types.js</string>
-                <key>Allowed URL Patterns</key>
-                <array><string>https://docs.google.com/document/*</string></array>
 			</dict>
 			<dict>
+				<key>Allowed URL Patterns</key>
+				<array>
+					<string>https://docs.google.com/document/*</string>
+				</array>
 				<key>Script</key>
 				<string>safari/zotero-google-docs-integration/kixAddZoteroMenu.js</string>
-                <key>Allowed URL Patterns</key>
-                <array><string>https://docs.google.com/document/*</string></array>
 			</dict>
 			<dict>
+				<key>Allowed URL Patterns</key>
+				<array>
+					<string>https://docs.google.com/document/*</string>
+				</array>
 				<key>Script</key>
 				<string>safari/zotero-google-docs-integration/client.js</string>
-                <key>Allowed URL Patterns</key>
-                <array><string>https://docs.google.com/document/*</string></array>
 			</dict>
 			<dict>
+				<key>Allowed URL Patterns</key>
+				<array>
+					<string>https://docs.google.com/document/*</string>
+				</array>
 				<key>Script</key>
 				<string>safari/zotero-google-docs-integration/ui.js</string>
-                <key>Allowed URL Patterns</key>
-                <array><string>https://docs.google.com/document/*</string></array>
+			</dict>
+		</array>
+		<key>SFSafariContextMenu</key>
+		<array>
+			<dict>
+				<key>Command</key>
+				<string>menu0</string>
+				<key>Text</key>
+				<string>menu0</string>
+			</dict>
+			<dict>
+				<key>Command</key>
+				<string>menu1</string>
+				<key>Text</key>
+				<string>menu1</string>
+			</dict>
+			<dict>
+				<key>Command</key>
+				<string>menu2</string>
+				<key>Text</key>
+				<string>menu2</string>
+			</dict>
+			<dict>
+				<key>Command</key>
+				<string>menu3</string>
+				<key>Text</key>
+				<string>menu3</string>
+			</dict>
+			<dict>
+				<key>Command</key>
+				<string>menu4</string>
+				<key>Text</key>
+				<string>menu4</string>
+			</dict>
+			<dict>
+				<key>Command</key>
+				<string>menu5</string>
+				<key>Text</key>
+				<string>menu5</string>
+			</dict>
+			<dict>
+				<key>Command</key>
+				<string>menu6</string>
+				<key>Text</key>
+				<string>menu6</string>
+			</dict>
+			<dict>
+				<key>Command</key>
+				<string>menu7</string>
+				<key>Text</key>
+				<string>menu7</string>
+			</dict>
+			<dict>
+				<key>Command</key>
+				<string>menu8</string>
+				<key>Text</key>
+				<string>menu8</string>
+			</dict>
+			<dict>
+				<key>Command</key>
+				<string>menu9</string>
+				<key>Text</key>
+				<string>menu9</string>
 			</dict>
 		</array>
 		<key>SFSafariToolbarItem</key>
@@ -243,69 +318,6 @@
 			<key>Label</key>
 			<string>Your Button</string>
 		</dict>
-		<key>SFSafariContextMenu</key>
-		<array>
-			<dict>
-				<key>Text</key>
-				<string>menu0</string>
-				<key>Command</key>
-				<string>menu0</string>
-			</dict>
-			<dict>
-				<key>Text</key>
-				<string>menu1</string>
-				<key>Command</key>
-				<string>menu1</string>
-			</dict>
-			<dict>
-				<key>Text</key>
-				<string>menu2</string>
-				<key>Command</key>
-				<string>menu2</string>
-			</dict>
-			<dict>
-				<key>Text</key>
-				<string>menu3</string>
-				<key>Command</key>
-				<string>menu3</string>
-			</dict>
-			<dict>
-				<key>Text</key>
-				<string>menu4</string>
-				<key>Command</key>
-				<string>menu4</string>
-			</dict>
-			<dict>
-				<key>Text</key>
-				<string>menu5</string>
-				<key>Command</key>
-				<string>menu5</string>
-			</dict>
-			<dict>
-				<key>Text</key>
-				<string>menu6</string>
-				<key>Command</key>
-				<string>menu6</string>
-			</dict>
-			<dict>
-				<key>Text</key>
-				<string>menu7</string>
-				<key>Command</key>
-				<string>menu7</string>
-			</dict>
-			<dict>
-				<key>Text</key>
-				<string>menu8</string>
-				<key>Command</key>
-				<string>menu8</string>
-			</dict>
-			<dict>
-				<key>Text</key>
-				<string>menu9</string>
-				<key>Command</key>
-				<string>menu9</string>
-			</dict>
-		</array>
 		<key>SFSafariWebsiteAccess</key>
 		<dict>
 			<key>Level</key>

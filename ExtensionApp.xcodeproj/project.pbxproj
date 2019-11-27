@@ -20,7 +20,7 @@
 		B39AD250229FD1FB00F97FA9 /* SafariExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AD24F229FD1FB00F97FA9 /* SafariExtensionHandler.swift */; };
 		B39AD252229FD1FB00F97FA9 /* SafariExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AD251229FD1FB00F97FA9 /* SafariExtensionViewController.swift */; };
 		B39AD255229FD1FB00F97FA9 /* SafariExtensionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B39AD253229FD1FB00F97FA9 /* SafariExtensionViewController.xib */; };
-		B39AD25E229FD1FB00F97FA9 /* SafariExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B39AD24A229FD1FA00F97FA9 /* SafariExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B39AD25E229FD1FB00F97FA9 /* ZoteroSafariExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B39AD24A229FD1FA00F97FA9 /* ZoteroSafariExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +40,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				B39AD25E229FD1FB00F97FA9 /* SafariExtension.appex in Embed App Extensions */,
+				B39AD25E229FD1FB00F97FA9 /* ZoteroSafariExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -52,7 +52,7 @@
 		7A9DC8DC2373117C005F6EAD /* JavaScriptInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JavaScriptInterval.swift; sourceTree = "<group>"; };
 		7A9DC8DD2373117C005F6EAD /* HTTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		7A9DC8DE2373117C005F6EAD /* TabManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabManager.swift; sourceTree = "<group>"; };
-		7AA1B01A2373137B002CEECF /* safari */ = {isa = PBXFileReference; lastKnownFileType = folder; name = safari; path = ../zotero-connectors/build/safari; sourceTree = "<group>"; };
+		7AA1B01A2373137B002CEECF /* safari */ = {isa = PBXFileReference; lastKnownFileType = folder; name = safari; path = "../zotero-connectors/build/safari"; sourceTree = "<group>"; };
 		B39AD233229FD14D00F97FA9 /* ExtensionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExtensionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B39AD236229FD14D00F97FA9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B39AD238229FD14D00F97FA9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 		B39AD23D229FD14E00F97FA9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B39AD23F229FD14E00F97FA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B39AD240229FD14E00F97FA9 /* ExtensionApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ExtensionApp.entitlements; sourceTree = "<group>"; };
-		B39AD24A229FD1FA00F97FA9 /* SafariExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SafariExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B39AD24A229FD1FA00F97FA9 /* ZoteroSafariExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ZoteroSafariExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B39AD24C229FD1FB00F97FA9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		B39AD24F229FD1FB00F97FA9 /* SafariExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariExtensionHandler.swift; sourceTree = "<group>"; };
 		B39AD251229FD1FB00F97FA9 /* SafariExtensionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariExtensionViewController.swift; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				B39AD233229FD14D00F97FA9 /* ExtensionApp.app */,
-				B39AD24A229FD1FA00F97FA9 /* SafariExtension.appex */,
+				B39AD24A229FD1FA00F97FA9 /* ZoteroSafariExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -167,9 +167,9 @@
 			productReference = B39AD233229FD14D00F97FA9 /* ExtensionApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B39AD249229FD1FA00F97FA9 /* SafariExtension */ = {
+		B39AD249229FD1FA00F97FA9 /* ZoteroSafariExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B39AD25F229FD1FB00F97FA9 /* Build configuration list for PBXNativeTarget "SafariExtension" */;
+			buildConfigurationList = B39AD25F229FD1FB00F97FA9 /* Build configuration list for PBXNativeTarget "ZoteroSafariExtension" */;
 			buildPhases = (
 				B39AD246229FD1FA00F97FA9 /* Sources */,
 				B39AD247229FD1FA00F97FA9 /* Frameworks */,
@@ -179,9 +179,9 @@
 			);
 			dependencies = (
 			);
-			name = SafariExtension;
+			name = ZoteroSafariExtension;
 			productName = SafariExtension;
-			productReference = B39AD24A229FD1FA00F97FA9 /* SafariExtension.appex */;
+			productReference = B39AD24A229FD1FA00F97FA9 /* ZoteroSafariExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -221,7 +221,7 @@
 			projectRoot = "";
 			targets = (
 				B39AD232229FD14D00F97FA9 /* ExtensionApp */,
-				B39AD249229FD1FA00F97FA9 /* SafariExtension */,
+				B39AD249229FD1FA00F97FA9 /* ZoteroSafariExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -275,7 +275,7 @@
 /* Begin PBXTargetDependency section */
 		B39AD25D229FD1FB00F97FA9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B39AD249229FD1FA00F97FA9 /* SafariExtension */;
+			target = B39AD249229FD1FA00F97FA9 /* ZoteroSafariExtension */;
 			targetProxy = B39AD25C229FD1FB00F97FA9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -518,7 +518,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B39AD25F229FD1FB00F97FA9 /* Build configuration list for PBXNativeTarget "SafariExtension" */ = {
+		B39AD25F229FD1FB00F97FA9 /* Build configuration list for PBXNativeTarget "ZoteroSafariExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B39AD260229FD1FB00F97FA9 /* Debug */,

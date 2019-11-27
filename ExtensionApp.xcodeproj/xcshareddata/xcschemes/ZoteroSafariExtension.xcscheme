@@ -2,7 +2,7 @@
 <Scheme
    LastUpgradeVersion = "1110"
    wasCreatedForAppExtension = "YES"
-   version = "1.3">
+   version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B39AD249229FD1FA00F97FA9"
-               BuildableName = "SafariExtension.appex"
-               BlueprintName = "SafariExtension"
+               BuildableName = "ZoteroSafariExtension.appex"
+               BlueprintName = "ZoteroSafariExtension"
                ReferencedContainer = "container:ExtensionApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,15 +42,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B39AD249229FD1FA00F97FA9"
-            BuildableName = "SafariExtension.appex"
-            BlueprintName = "SafariExtension"
-            ReferencedContainer = "container:ExtensionApp.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <Testables>
       </Testables>
    </TestAction>
@@ -59,38 +50,15 @@
       selectedDebuggerIdentifier = ""
       selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
+      askForAppToLaunch = "Yes"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "NO">
-      <PathRunnable
-         runnableDebuggingMode = "0"
-         BundleIdentifier = "com.apple.Safari"
-         FilePath = "/Applications/Safari.app">
-      </PathRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B39AD249229FD1FA00F97FA9"
-            BuildableName = "SafariExtension.appex"
-            BlueprintName = "SafariExtension"
-            ReferencedContainer = "container:ExtensionApp.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-   </LaunchAction>
-   <ProfileAction
-      buildConfiguration = "Debug"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      savedToolIdentifier = ""
-      useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES">
-      <PathRunnable
-         runnableDebuggingMode = "0"
-         BundleIdentifier = "com.apple.Safari"
-         FilePath = "/Applications/Safari.app">
-      </PathRunnable>
-      <MacroExpansion>
+      allowLocationSimulation = "YES"
+      launchAutomaticallySubstyle = "2">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B39AD232229FD14D00F97FA9"
@@ -98,7 +66,25 @@
             BlueprintName = "ExtensionApp"
             ReferencedContainer = "container:ExtensionApp.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES"
+      launchAutomaticallySubstyle = "2">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "B39AD232229FD14D00F97FA9"
+            BuildableName = "ExtensionApp.app"
+            BlueprintName = "ExtensionApp"
+            ReferencedContainer = "container:ExtensionApp.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
