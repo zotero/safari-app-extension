@@ -291,7 +291,11 @@ class GlobalPage: NSObject {
 	
 	private class func getLocale(id messageId: Int) -> Bool {
 		let subpath = "safari/_locales/"
-		guard let fullpath = Bundle.main.path(forResource: "messages", ofType: "json", inDirectory: subpath + Locale.current.languageCode!)
+		var languageCode = Locale.current.languageCode ?? "en"
+		if Locale.preferredLanguages.count > 0 {
+			languageCode = String(Locale.preferredLanguages[0].split(separator: "-").first!	)
+		}
+		guard let fullpath = Bundle.main.path(forResource: "messages", ofType: "json", inDirectory: subpath + languageCode)
 			?? Bundle.main.path(forResource: "messages", ofType: "json", inDirectory: subpath + "en") else {
 				print("Unable to read locale file")
 				return false
