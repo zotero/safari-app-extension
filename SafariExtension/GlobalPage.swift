@@ -104,8 +104,14 @@ class GlobalPage: NSObject {
 							GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
 							return;
 						}
-//						print("Sending message to global \(id) \(args as? String)")
-						GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
+						tab.getActivePage { page in
+							guard let page = page else {
+								GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
+								return;
+							}
+//							print("Sending message to global \(id) \(args as? String)")
+							GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, PageManager.getPageId(page)])
+						}
 					}
 				} else {
 					GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
@@ -113,14 +119,11 @@ class GlobalPage: NSObject {
 			}
 			return
 		}
-		page.getContainingTab() { tab in
-			// print("Sending message to global \(id) \(args as? String)")
-			GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
-		}
+		GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, PageManager.getPageId(page)])
 	}
 	
 	// Called from the global page to communicate with safari injected scripts
-	private static let sendMessageToTab: @convention(block) (Any, Any, Any?, Int) -> (Bool) = { (name: Any, id: Any, args: Any?, tabId: Int?) in
+	private static let sendMessageToTab: @convention(block) (Any, Any, Any?, Int) -> (Bool) = { (name: Any, id: Any, args: Any?, pageId: Int?) in
 		guard let name = name as? String,
 			let id = id as? Int else {
 				print("Failure: Incorrect arguments in sendMessageToTab")
@@ -167,22 +170,20 @@ class GlobalPage: NSObject {
 		case "Swift.setPrefs":
 			return setPrefs(args, id: id)
 		case "Swift.updateButton":
-			return updateButton(args, tabId: tabId)
+			return updateButton(args, pageId: pageId)
 		case "Swift.globalAvailable":
 			return sendGlobalAvailableToAllTabs()
 		default:
 			break
 		}
 		// Sending to the tab provided by the tabId from the global page
-		if (tabId != nil) {
-			TabManager.getTab(id: tabId!) { tab in
-				guard let tab = tab else {
-					print("Attempted to send a message \(name) to a dead tab \(String(describing: tabId))")
+		if (pageId != nil) {
+			PageManager.getPage(id: pageId!) { page in
+				guard let page = page else {
+					print("Attempted to send a message \(name) to a dead page \(String(describing: pageId))")
 					return
 				}
-				tab.getActivePage { activePage in
-					activePage?.dispatchMessageToScript(withName: name, userInfo: ["args": [args, id]])
-				}
+				page.dispatchMessageToScript(withName: name, userInfo: ["args": [args, id]])
 				return
 			}
 			return true
@@ -279,12 +280,14 @@ class GlobalPage: NSObject {
 	
 	private class func closeTab(with args: Any?) -> Bool {
 		guard let args = args as? [Any],
-			let tabId = args[0] as? Int else {
+			let pageId = args[0] as? Int else {
 			print("Failure: Incorrect arguments in closeTab")
 			return false
 		}
-		TabManager.getTab(id: tabId) { tab in
-			tab?.close()
+		PageManager.getPage(id: pageId) { page in
+			page?.getContainingTab { tab in
+				tab.close()
+			}
 		}
 		return true
 	}
@@ -327,7 +330,7 @@ class GlobalPage: NSObject {
 		return true
 	}
 	
-	private class func updateButton(_ args: Any?, tabId: Int?) -> Bool {
+	private class func updateButton(_ args: Any?, pageId: Int?) -> Bool {
 
 		guard let args = args as? [Any],
 			let imagePath = args[0] as? String,
@@ -344,8 +347,8 @@ class GlobalPage: NSObject {
 	        print("Unable to read toolbar image file \(filename)")
 			return false
 	    }
-		TabManager.getActiveTabId() { activeTabId in
-			guard tabId != nil && activeTabId != nil && tabId == activeTabId else {
+		PageManager.getActivePageId() { activePageId in
+			guard pageId != nil && activePageId != nil && pageId == activePageId else {
 				return
 			}
 			SFSafariApplication.getActiveWindow() { window in
