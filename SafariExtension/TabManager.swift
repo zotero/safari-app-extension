@@ -9,6 +9,28 @@
 import Foundation
 import SafariServices
 
+// For some reason the references we get to SFSafariTab do not get properly
+// retained when stored in a dict so we have to manually manage their memory.
+// Since we are running in automatically managed memory mode
+// calling .retain() directly on an object is not allowed
+extension SFSafariTab {
+	/// Same as retain(), which the compiler no longer lets us call:
+	@discardableResult
+	func retainMe() -> Self {
+	  _ = Unmanaged.passRetained(self)
+	  return self
+	}
+
+	/// Same as autorelease(), which the compiler no longer lets us call.
+	///
+	/// This function does an autorelease() rather than release() to give you more flexibility.
+	@discardableResult
+	func releaseMe() -> Self {
+	  _ = Unmanaged.passUnretained(self).autorelease()
+	  return self
+	}
+}
+
 class TabManager {
 	static var idsToTabs: [Int: SFSafariTab] = { 
 			SFSafariApplication.getAllWindows() { windows in
@@ -23,6 +45,7 @@ class TabManager {
 				return tabId
 			}
 		}
+		tab.retainMe()
 		idsToTabs[tab.hashValue] = tab
 		return tab.hashValue
 	}
@@ -55,14 +78,17 @@ class TabManager {
 		var aliveTabs = aliveTabs
 		var windows = windows
 		guard let window = windows.popLast() else {
-			var newIdsToTabs: [Int : SFSafariTab] = [ : ]
-			for id in aliveTabs {
-				guard let tab = idsToTabs[id] else {
-					continue
+			var deadTabs: [Int] = []
+			for (tabId, _) in idsToTabs {
+				if !aliveTabs.contains(tabId) {
+					deadTabs.append(tabId)
 				}
-				newIdsToTabs.updateValue(tab, forKey: id)
 			}
-			idsToTabs = newIdsToTabs
+			for tabId in deadTabs {
+				let tab = idsToTabs[tabId]
+				idsToTabs.removeValue(forKey: tabId)
+				tab!.releaseMe()
+			}
 			completion()
 			return
 		}
