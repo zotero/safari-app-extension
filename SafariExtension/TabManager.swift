@@ -10,12 +10,30 @@ import Foundation
 import SafariServices
 
 class TabManager {
-	static var idsToTabs: [Int: SFSafariTab] = { 
-			SFSafariApplication.getAllWindows() { windows in
-				TabManager.cleanWindows(windows: windows) { }
-			}
-			return [ : ]
-		}()
+    private static let accessQueue = DispatchQueue.global(qos: .utility)
+
+    private static var _idsToTabs: [Int: SFSafariTab] = {
+        SFSafariApplication.getAllWindows() { windows in
+            TabManager.cleanWindows(windows: windows) { }
+        }
+        return [ : ]
+    }()
+
+	static var idsToTabs: [Int: SFSafariTab] {
+        get {
+            var ids: [Int: SFSafariTab] = [:]
+            accessQueue.sync {
+                ids = _idsToTabs
+            }
+            return ids
+        }
+
+        set {
+            accessQueue.async(flags: .barrier) {
+                _idsToTabs = newValue
+            }
+        }
+    }
 	
 	class func getTabId(_ tab: SFSafariTab) -> Int {
 		for (tabId, storedTab) in idsToTabs {
