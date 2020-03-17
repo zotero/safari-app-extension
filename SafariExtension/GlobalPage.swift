@@ -96,35 +96,37 @@ class GlobalPage: NSObject {
 	
 	static func sendMessageToGlobalPage(name: String, args: Any = [], id: Int? = nil, page: SFSafariPage? = nil) {
 		let id = id ?? UUID().hashValue
-		guard let page = page else {
-			getActiveWindow { window in
-				if (window != nil) {
-					window?.getActiveTab { tab in
-						guard let tab = tab else {
-							GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
-							return;
-						}
+
+        if let page = page {
+            page.getContainingTab() { tab in
+                // print("Sending message to global \(id) \(args as? String)")
+                GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
+            }
+            return
+        }
+
+        getActiveWindow { window in
+            guard let window = window else {
+                GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
+                return
+            }
+            window.getActiveTab { tab in
+                guard let tab = tab else {
+                    GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
+                    return
+                }
 //						print("Sending message to global \(id) \(args as? String)")
-						GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
-					}
-				} else {
-					GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
-				}
-			}
-			return
-		}
-		page.getContainingTab() { tab in
-			// print("Sending message to global \(id) \(args as? String)")
-			GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
-		}
+                GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
+            }
+        }
 	}
 	
 	// Called from the global page to communicate with safari injected scripts
 	private static let sendMessageToTab: @convention(block) (Any, Any, Any?, Int) -> (Bool) = { (name: Any, id: Any, args: Any?, tabId: Int?) in
 		guard let name = name as? String,
-			let id = id as? Int else {
-				print("Failure: Incorrect arguments in sendMessageToTab")
-				return false;
+			  let id = id as? Int else {
+            print("Failure: Incorrect arguments in sendMessageToTab")
+            return false
 		}
 		// Some requests are handled in swift
 //		print("Received \(name) \(id)")
@@ -132,7 +134,7 @@ class GlobalPage: NSObject {
 		case "HTTP.request":
 			guard let args = args as? [String: Any] else {
 				print("Failure: Incorrect arguments in \(name)")
-				return false;
+				return false
 			}
 			HTTP.request(with: args) { response in
 				sendMessageToGlobalPage(name: "response", args: response, id: id)
@@ -174,8 +176,8 @@ class GlobalPage: NSObject {
 			break
 		}
 		// Sending to the tab provided by the tabId from the global page
-		if (tabId != nil) {
-			TabManager.getTab(id: tabId!) { tab in
+        if let tabId = tabId {
+			TabManager.getTab(id: tabId) { tab in
 				guard let tab = tab else {
 					print("Attempted to send a message \(name) to a dead tab \(String(describing: tabId))")
 					return

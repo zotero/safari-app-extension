@@ -10,16 +10,11 @@ import Foundation
 import SafariServices
 
 class TabManager {
-    private static let accessQueue = DispatchQueue.global(qos: .utility)
+    private static let accessQueue = DispatchQueue(label: "org.zotero.TabManagerAccessQueue", qos: .utility)
 
-    private static var _idsToTabs: [Int: SFSafariTab] = {
-        SFSafariApplication.getAllWindows() { windows in
-            TabManager.cleanWindows(windows: windows) { }
-        }
-        return [ : ]
-    }()
+    private static var _idsToTabs: [Int: SFSafariTab] = [:]
 
-	static var idsToTabs: [Int: SFSafariTab] {
+	class var idsToTabs: [Int: SFSafariTab] {
         get {
             var ids: [Int: SFSafariTab] = [:]
             accessQueue.sync {
@@ -47,9 +42,11 @@ class TabManager {
 	
 	class func getTab(id: Int, completion: @escaping (SFSafariTab?) -> Void) {
 		SFSafariApplication.getAllWindows() { windows in
-			self.cleanWindows(windows: windows) {
-				completion(idsToTabs[id])
-			}
+            let tabs = idsToTabs
+            reloadTabs(existingTabs: tabs, windows: windows) { newTabs in
+                idsToTabs = newTabs
+                completion(newTabs[id])
+            }
 		}
 	}
 	
@@ -68,31 +65,30 @@ class TabManager {
 			}
 		}
 	}
-	
-	private class func cleanWindows(windows: [SFSafariWindow], aliveTabs: [Int] = [], completion: @escaping () -> Void) {
-		var aliveTabs = aliveTabs
-		var windows = windows
-		guard let window = windows.popLast() else {
-			var newIdsToTabs: [Int : SFSafariTab] = [ : ]
-			for id in aliveTabs {
-				guard let tab = idsToTabs[id] else {
-					continue
-				}
-				newIdsToTabs.updateValue(tab, forKey: id)
-			}
-			idsToTabs = newIdsToTabs
-			completion()
-			return
-		}
-		window.getAllTabs() { tabs in
-			for (tabId, storedTab) in self.idsToTabs {
-				for tab in tabs {
-					if tab.isEqual(storedTab) {
-						aliveTabs.append(tabId)
-					}
-				}
-			}
-			self.cleanWindows(windows: windows, aliveTabs: aliveTabs, completion: completion)
-		}
-	}
+
+    private class func reloadTabs(existingTabs: [Int: SFSafariTab], windows: [SFSafariWindow],
+                                  activeTabIds: [Int] = [], completion: @escaping ([Int: SFSafariTab]) -> Void) {
+        // Go through all tabs for last window
+        if let window = windows.last {
+            var ids = activeTabIds
+            window.getAllTabs { tabs in
+                for (id, tab) in existingTabs {
+                    if tabs.contains(where: { $0.isEqual(tab) }) {
+                        ids.append(id)
+                    }
+                }
+                // Recursively go through all windows
+                self.reloadTabs(existingTabs: existingTabs, windows: windows.dropLast(), activeTabIds: ids, completion: completion)
+            }
+            return
+        }
+
+        // All windows and tabs checked, return results
+        var tabs: [Int: SFSafariTab] = [:]
+        for id in activeTabIds {
+            guard let tab = existingTabs[id] else { continue }
+            tabs[id] = tab
+        }
+        completion(tabs)
+    }
 }
