@@ -20,116 +20,116 @@ class GlobalPage: NSObject {
 	}()
 	
 	static var context: JSContext? = {
-			let context = JSContext()
-			context?.exceptionHandler = onError
-			
-			// Add setTimeout, setInterval, etc.
-			JSInterval.provideToContext(context: context!)
-			
-			// Add console.log
-			context?.setObject(consoleLog, forKeyedSubscript: "_consoleLog" as NSString)
-			
-			// Add the message handler
-			context?.setObject(sendMessageToTab, forKeyedSubscript: "sendMessage" as NSString)
-			
-			// Load the global page JS
-			let globalFiles = [
-				"jscontext_shim.js",
-				"node_modules.js",
-				"zotero_config.js",
-				"zotero.js",
-				"i18n.js",
-				"promise.js",
-				"prefs.js",
-				"api.js",
-				"http.js",
-				"http_global.js",
-				"oauthsimple.js",
-				"proxy.js",
-				"connector.js",
-				"cachedTypes.js",
-				"zotero/date.js",
-				"zotero/debug.js",
-				"errors_webkit.js",
-				"zotero/xregexp/xregexp.js",
-				"zotero/xregexp/addons/build.js",
-				"zotero/xregexp/addons/matchrecursive.js",
-				"zotero/xregexp/addons/unicode/unicode-base.js",
-				"zotero/xregexp/addons/unicode/unicode-categories.js",
-				"zotero/xregexp/addons/unicode/unicode-zotero.js",
-				"zotero/openurl.js",
-				"repo.js",
-				"zotero/translation/tlds.js",
-				"zotero/translation/translator.js",
-				"translators.js",
-				"zotero/connectorTypeSchemaData.js",
-				"zotero/utilities.js",
-				"utilities.js",
-				"zotero-google-docs-integration/api.js",
-				"messages.js",
-				"messaging.js",
-				"messaging_global.js",
-				"global.js"
-			]
-			
-			for filepath in globalFiles {
-				let ext = String(filepath.split(separator: ".").last!);
-				let subpath = filepath.split(separator: "/").dropLast().joined(separator: "/");
-				let filename = String(filepath.split(separator: "/").last!.split(separator: ".").first!);
-				guard let fullpath = Bundle.main.path(forResource: filename, ofType: ext, inDirectory: subpath)
-						?? Bundle.main.path(forResource: filename, ofType: ext, inDirectory: "safari/" + subpath) else {
-					print("Unable to read resource file " + subpath + filename)
-					return nil
-				}
-				
-				do {
-					let script = try String(contentsOfFile: fullpath, encoding: String.Encoding.utf8)
-					_ = context?.evaluateScript(script, withSourceURL: URL(string: filepath))
-				} catch (let error) {
-					print("Error while processing script file: \(error)")
-					return nil
-				}
+		let context = JSContext()
+		context?.exceptionHandler = onError
+
+		// Add setTimeout, setInterval, etc.
+		JSInterval.provideToContext(context: context!)
+
+		// Add console.log
+		context?.setObject(consoleLog, forKeyedSubscript: "_consoleLog" as NSString)
+
+		// Add the message handler
+		context?.setObject(sendMessageToTab, forKeyedSubscript: "sendMessage" as NSString)
+
+		// Load the global page JS
+		let globalFiles = [
+			"jscontext_shim.js",
+			"node_modules.js",
+			"zotero_config.js",
+			"zotero.js",
+			"i18n.js",
+			"promise.js",
+			"prefs.js",
+			"api.js",
+			"http.js",
+			"http_global.js",
+			"oauthsimple.js",
+			"proxy.js",
+			"connector.js",
+			"cachedTypes.js",
+			"zotero/date.js",
+			"zotero/debug.js",
+			"errors_webkit.js",
+			"zotero/xregexp/xregexp.js",
+			"zotero/xregexp/addons/build.js",
+			"zotero/xregexp/addons/matchrecursive.js",
+			"zotero/xregexp/addons/unicode/unicode-base.js",
+			"zotero/xregexp/addons/unicode/unicode-categories.js",
+			"zotero/xregexp/addons/unicode/unicode-zotero.js",
+			"zotero/openurl.js",
+			"repo.js",
+			"zotero/translation/tlds.js",
+			"zotero/translation/translator.js",
+			"translators.js",
+			"zotero/connectorTypeSchemaData.js",
+			"zotero/utilities.js",
+			"utilities.js",
+			"zotero-google-docs-integration/api.js",
+			"messages.js",
+			"messaging.js",
+			"messaging_global.js",
+			"global.js"
+		]
+
+		for filepath in globalFiles {
+			let ext = String(filepath.split(separator: ".").last!);
+			let subpath = filepath.split(separator: "/").dropLast().joined(separator: "/");
+			let filename = String(filepath.split(separator: "/").last!.split(separator: ".").first!);
+			guard let fullpath = Bundle.main.path(forResource: filename, ofType: ext, inDirectory: subpath)
+				?? Bundle.main.path(forResource: filename, ofType: ext, inDirectory: "safari/" + subpath) else {
+				print("Unable to read resource file " + subpath + filename)
+				return nil
 			}
-			
-			return context
-		}()
+
+			do {
+				let script = try String(contentsOfFile: fullpath, encoding: String.Encoding.utf8)
+				_ = context?.evaluateScript(script, withSourceURL: URL(string: filepath))
+			} catch (let error) {
+				print("Error while processing script file: \(error)")
+				return nil
+			}
+		}
+
+		return context
+	}()
 	
 	static func sendMessageToGlobalPage(name: String, args: Any = [], id: Int? = nil, page: SFSafariPage? = nil) {
 		let id = id ?? UUID().hashValue
 
-        if let page = page {
-            page.getContainingTab() { tab in
-                // print("Sending message to global \(id) \(args as? String)")
-                GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
-            }
-            return
-        }
+		if let page = page {
+			page.getContainingTab() { tab in
+				// print("Sending message to global \(id) \(args as? String)")
+				GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
+			}
+			return
+		}
 
-        getActiveWindow { window in
-            guard let window = window else {
-                GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
-                return
-            }
-            window.getActiveTab { tab in
-                guard let tab = tab else {
-                    GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
-                    return
-                }
-//						print("Sending message to global \(id) \(args as? String)")
-                GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
-            }
-        }
+		getActiveWindow { window in
+			guard let window = window else {
+				GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
+				return
+			}
+			window.getActiveTab { tab in
+				guard let tab = tab else {
+					GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
+					return
+				}
+				//						print("Sending message to global \(id) \(args as? String)")
+				GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
+			}
+		}
 	}
 	
 	// Called from the global page to communicate with safari injected scripts
 	private static let sendMessageToTab: @convention(block) (Any, Any, Any?, Int) -> (Bool) = { (name: Any, id: Any, args: Any?, tabId: Int?) in
 		guard let name = name as? String,
-			  let id = id as? Int else {
-            print("Failure: Incorrect arguments in sendMessageToTab")
-            return false
+			let id = id as? Int else {
+				print("Failure: Incorrect arguments in sendMessageToTab")
+				return false
 		}
 		// Some requests are handled in swift
-//		print("Received \(name) \(id)")
+		//		print("Received \(name) \(id)")
 		switch name {
 		case "HTTP.request":
 			guard let args = args as? [String: Any] else {
@@ -176,7 +176,7 @@ class GlobalPage: NSObject {
 			break
 		}
 		// Sending to the tab provided by the tabId from the global page
-        if let tabId = tabId {
+		if let tabId = tabId {
 			TabManager.getTab(id: tabId) { tab in
 				guard let tab = tab else {
 					print("Attempted to send a message \(name) to a dead tab \(String(describing: tabId))")
@@ -282,8 +282,8 @@ class GlobalPage: NSObject {
 	private class func closeTab(with args: Any?) -> Bool {
 		guard let args = args as? [Any],
 			let tabId = args[0] as? Int else {
-			print("Failure: Incorrect arguments in closeTab")
-			return false
+				print("Failure: Incorrect arguments in closeTab")
+				return false
 		}
 		TabManager.getTab(id: tabId) { tab in
 			tab?.close()
@@ -335,17 +335,17 @@ class GlobalPage: NSObject {
 			let imagePath = args[0] as? String,
 			let tooltip = args[1] as? String,
 			let translators = args[2] as? [[String]]
-		else {
+			else {
 				print(	"Failure: Incorrect arguments in updateButton")
 				return false
 		}
 		self.translators = translators
-	    let subpath = "safari/" + imagePath.split(separator: "/").dropLast().joined(separator: "/");
-	    let filename = String(imagePath.split(separator: "/").last!.split(separator: ".").first!);
-	    guard let fullpath = Bundle.main.path(forResource: filename, ofType: "png", inDirectory: subpath) else {
-	        print("Unable to read toolbar image file \(filename)")
+		let subpath = "safari/" + imagePath.split(separator: "/").dropLast().joined(separator: "/");
+		let filename = String(imagePath.split(separator: "/").last!.split(separator: ".").first!);
+		guard let fullpath = Bundle.main.path(forResource: filename, ofType: "png", inDirectory: subpath) else {
+			print("Unable to read toolbar image file \(filename)")
 			return false
-	    }
+		}
 		TabManager.getActiveTabId() { activeTabId in
 			guard tabId != nil && activeTabId != nil && tabId == activeTabId else {
 				return
@@ -357,7 +357,7 @@ class GlobalPage: NSObject {
 				}
 			}
 		}
-	    
+
 		return true
 	}
 	
@@ -376,3 +376,4 @@ class GlobalPage: NSObject {
 		return true
 	}
 }
+`
