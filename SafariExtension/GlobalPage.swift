@@ -376,4 +376,4 @@ class GlobalPage: NSObject {
 		return true
 	}
 }
-`
+
