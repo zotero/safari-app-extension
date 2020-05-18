@@ -316,7 +316,7 @@
 			<key>Image</key>
 			<string>safari/images/toolbar/zotero-new-z-16px.png</string>
 			<key>Label</key>
-			<string>Your Button</string>
+			<string>Zotero Connector</string>
 		</dict>
 		<key>SFSafariWebsiteAccess</key>
 		<dict>
