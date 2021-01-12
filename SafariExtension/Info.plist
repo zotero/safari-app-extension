@@ -243,6 +243,14 @@
 				<key>Script</key>
 				<string>safari/zotero-google-docs-integration/ui.js</string>
 			</dict>
+            <dict>
+				<key>Allowed URL Patterns</key>
+				<array>
+					<string>https://docs.google.com/document/*</string>
+				</array>
+				<key>Script</key>
+				<string>safari/zotero-google-docs-integration/document.js</string>
+			</dict>
 		</array>
 		<key>SFSafariContextMenu</key>
 		<array>
