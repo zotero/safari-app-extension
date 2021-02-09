@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>5.0.66</string>
+	<string>5.0.81</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSMinimumSystemVersion</key>
@@ -62,6 +62,10 @@
 			<dict>
 				<key>Script</key>
 				<string>safari/cachedTypes.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/schema.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>
@@ -243,7 +247,7 @@
 				<key>Script</key>
 				<string>safari/zotero-google-docs-integration/ui.js</string>
 			</dict>
-            <dict>
+			<dict>
 				<key>Allowed URL Patterns</key>
 				<array>
 					<string>https://docs.google.com/document/*</string>
