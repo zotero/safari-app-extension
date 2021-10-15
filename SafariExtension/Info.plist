@@ -49,7 +49,7 @@
 			</dict>
 			<dict>
 				<key>Script</key>
-				<string>safari/promise.js</string>
+				<string>safari/translate/promise.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>
@@ -61,103 +61,79 @@
 			</dict>
 			<dict>
 				<key>Script</key>
-				<string>safari/cachedTypes.js</string>
+				<string>safari/utilities/date.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>
-				<string>safari/schema.js</string>
+				<string>safari/utilities/openurl.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>
-				<string>safari/zotero/date.js</string>
+				<string>safari/utilities/xregexp-all.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>
-				<string>safari/zotero/debug.js</string>
+				<string>safari/utilities/xregexp-unicode-zotero.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>
-				<string>safari/errors_webkit.js</string>
+				<string>safari/utilities/resource/zoteroTypeSchemaData.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>
-				<string>safari/zotero/openurl.js</string>
+				<string>safari/utilities/utilities.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>
-				<string>safari/zotero/xregexp/xregexp.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/xregexp/addons/build.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/xregexp/addons/matchrecursive.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/xregexp/addons/unicode/unicode-base.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/xregexp/addons/unicode/unicode-categories.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/xregexp/addons/unicode/unicode-zotero.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/rdf/init.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/rdf/uri.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/rdf/term.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/rdf/identity.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/rdf/match.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/rdf/rdfparser.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/translation/translate.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/translation/translator.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/translate_item.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/connectorTypeSchemaData.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/utilities.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
-				<string>safari/zotero/utilities_translate.js</string>
+				<string>safari/utilities/utilities_item.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>
 				<string>safari/utilities.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/translate/debug.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/utilities/schema.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/translate/rdf/init.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/translate/rdf/uri.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/translate/rdf/term.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/translate/rdf/identity.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/translate/rdf/rdfparser.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/translate/translation/translate.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/translate/translator.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/translate/utilities_translate.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/translate_item.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>
@@ -170,6 +146,14 @@
 			<dict>
 				<key>Script</key>
 				<string>safari/integration/connectorIntegration.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/cachedTypes.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/schema.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>

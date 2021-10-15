@@ -39,7 +39,7 @@ class GlobalPage: NSObject {
 			"zotero_config.js",
 			"zotero.js",
 			"i18n.js",
-			"promise.js",
+			"translate/promise.js",
 			"prefs.js",
 			"api.js",
 			"http.js",
@@ -47,25 +47,21 @@ class GlobalPage: NSObject {
 			"oauthsimple.js",
 			"proxy.js",
 			"connector.js",
-			"cachedTypes.js",
-			"zotero/date.js",
-			"zotero/debug.js",
-			"errors_webkit.js",
-			"zotero/xregexp/xregexp.js",
-			"zotero/xregexp/addons/build.js",
-			"zotero/xregexp/addons/matchrecursive.js",
-			"zotero/xregexp/addons/unicode/unicode-base.js",
-			"zotero/xregexp/addons/unicode/unicode-categories.js",
-			"zotero/xregexp/addons/unicode/unicode-zotero.js",
-			"zotero/openurl.js",
 			"repo.js",
-			"zotero/translation/tlds.js",
-			"zotero/translation/translator.js",
-			"translators.js",
-			"zotero/connectorTypeSchemaData.js",
-			"zotero/utilities.js",
+			"utilities/date.js",
+			"utilities/openurl.js",
+			"utilities/xregexp-all.js",
+			"utilities/utilities.js",
+			"utilities/utilities_item.js",
 			"utilities.js",
+			"translate/debug.js",
+			"translate/tlds.js",
+			"translate/translator.js",
+			"translate/resource/zoteroTypeSchemaData.js",
+			"translators.js",
 			"zotero-google-docs-integration/api.js",
+			"cachedTypes.js",
+			"errors_webkit.js",
 			"messages.js",
 			"messaging.js",
 			"messaging_global.js",
@@ -164,6 +160,8 @@ class GlobalPage: NSObject {
 			return true
 		case "Swift.getLocale":
 			return getLocale(id: id)
+		case "Swift.getDateFormatsJSON":
+			return getDateFormatsJSON(id: id)
 		case "Swift.getPrefs":
 			return getPrefs(id: id)
 		case "Swift.setPrefs":
@@ -306,6 +304,23 @@ class GlobalPage: NSObject {
 		do {
 			let localeJSON = try String(contentsOfFile: fullpath, encoding: .utf8)
 			sendMessageToGlobalPage(name: "response", args: localeJSON, id: messageId)
+		}
+		catch (let error) {
+			print("Error while processing script file: \(error)")
+			return false
+		}
+		return true
+	}
+	
+	private class func getDateFormatsJSON(id messageId: Int) -> Bool {
+		guard let fullpath = Bundle.main.path(forResource: "dateFormats", ofType: "json", inDirectory: "safari/utilities/resource") else {
+			print("Unable to read locale file")
+			return false
+		}
+		
+		do {
+			let dateFormatsJSON = try String(contentsOfFile: fullpath, encoding: .utf8)
+			sendMessageToGlobalPage(name: "response", args: dateFormatsJSON, id: messageId)
 		}
 		catch (let error) {
 			print("Error while processing script file: \(error)")
