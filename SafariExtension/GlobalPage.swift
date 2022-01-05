@@ -57,7 +57,7 @@ class GlobalPage: NSObject {
 			"translate/debug.js",
 			"translate/tlds.js",
 			"translate/translator.js",
-			"translate/resource/zoteroTypeSchemaData.js",
+			"utilities/resource/zoteroTypeSchemaData.js",
 			"translators.js",
 			"zotero-google-docs-integration/api.js",
 			"cachedTypes.js",
