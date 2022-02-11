@@ -146,7 +146,12 @@ class GlobalPage: NSObject {
 			// This might not do anything useful...
 			getActiveWindow { window in
 				window?.getActiveTab { tab in
-					tab?.activate()
+					tab?.activate {
+						// For some reason we need an empty completion handler here.
+						// Presumaby app extension APIs are not well maintained and there's
+						// been a bug introduced here recently. Otherwise
+						// we get a nasty exception thrown here.
+					}
 				}
 			}
 			return true
