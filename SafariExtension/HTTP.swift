@@ -22,7 +22,7 @@ enum HTTP {
 						completion: @escaping (_ response: [Any?]) -> Void) {
 		guard let urlString = data["url"] as? String,
 			  let escapedUrlString = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed),
-			let url = URL(string: escapedUrlString) else {
+			  let url = URL(string: urlString) ?? URL(string: escapedUrlString) else {
 				completion([-1, "missing/incorrect url", nil])
 				return
 		}
