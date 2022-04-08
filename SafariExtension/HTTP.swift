@@ -21,8 +21,7 @@ enum HTTP {
 	static func request(with data: [String: Any],
 						completion: @escaping (_ response: [Any?]) -> Void) {
 		guard let urlString = data["url"] as? String,
-			  let escapedUrlString = urlString.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed),
-			  let url = URL(string: urlString) ?? URL(string: escapedUrlString) else {
+			  let url = URL(string: urlString) ?? urlString.removingPercentEncoding.flatMap({ $0.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed).flatMap(URL.init) }) else {
 				completion([-1, "missing/incorrect url", nil])
 				return
 		}
