@@ -163,8 +163,10 @@ class GlobalPage: NSObject {
 				sendMessageToGlobalPage(name: "response", args: uri?.absoluteString as Any, id: id)
 			}
 			return true
-		case "Swift.getLocale":
-			return getLocale(id: id)
+		case "Swift.getCurrentLocale":
+			return getCurrentLocale(id: id)
+		case "Swift.getDefaultLocale":
+			return getDefaultLocale(id: id)
 		case "Swift.getDateFormatsJSON":
 			return getDateFormatsJSON(id: id)
 		case "Swift.getPrefs":
@@ -294,27 +296,46 @@ class GlobalPage: NSObject {
 		return true
 	}
 	
-	private class func getLocale(id messageId: Int) -> Bool {
+	private class func getLocale(languageCode: String) -> String {
 		let subpath = "safari/_locales/"
-		var languageCode = Locale.current.languageCode ?? "en"
-		if Locale.preferredLanguages.count > 0 {
-			languageCode = String(Locale.preferredLanguages[0].split(separator: "-").first!	)
-		}
 		guard let fullpath = Bundle.main.path(forResource: "messages", ofType: "json", inDirectory: subpath + languageCode)
 			?? Bundle.main.path(forResource: "messages", ofType: "json", inDirectory: subpath + "en") else {
 				print("Unable to read locale file")
-				return false
+				return ""
 		}
 		
 		do {
 			let localeJSON = try String(contentsOfFile: fullpath, encoding: .utf8)
-			sendMessageToGlobalPage(name: "response", args: localeJSON, id: messageId)
+			return localeJSON
 		}
 		catch (let error) {
 			print("Error while processing script file: \(error)")
-			return false
+			return ""
 		}
-		return true
+	}
+	
+	private class func getCurrentLocale(id messageId: Int) -> Bool {
+		var languageCode = Locale.current.languageCode ?? "en"
+		if Locale.preferredLanguages.count > 0 {
+			languageCode = String(Locale.preferredLanguages[0].split(separator: "-").first!	)
+		}
+		let localeJSON = getLocale(languageCode: languageCode)
+		if (localeJSON != "") {
+			sendMessageToGlobalPage(name: "response", args: localeJSON, id: messageId)
+			return true
+		}
+		sendMessageToGlobalPage(name: "response", args: "", id: messageId)
+		return false
+	}
+	
+	private class func getDefaultLocale(id messageId: Int) -> Bool {
+		let localeJSON = getLocale(languageCode: "en")
+		if (localeJSON != "") {
+			sendMessageToGlobalPage(name: "response", args: localeJSON, id: messageId)
+			return true
+		}
+		sendMessageToGlobalPage(name: "response", args: "", id: messageId)
+		return false
 	}
 	
 	private class func getDateFormatsJSON(id messageId: Int) -> Bool {
