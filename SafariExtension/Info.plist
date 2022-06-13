@@ -221,7 +221,23 @@
 					<string>https://docs.google.com/document/*</string>
 				</array>
 				<key>Script</key>
+				<string>safari/zotero-google-docs-integration/googleDocs.js</string>
+			</dict>
+			<dict>
+				<key>Allowed URL Patterns</key>
+				<array>
+					<string>https://docs.google.com/document/*</string>
+				</array>
+				<key>Script</key>
 				<string>safari/zotero-google-docs-integration/client.js</string>
+			</dict>
+			<dict>
+				<key>Allowed URL Patterns</key>
+				<array>
+					<string>https://docs.google.com/document/*</string>
+				</array>
+				<key>Script</key>
+				<string>safari/zotero-google-docs-integration/clientAppsScript.js</string>
 			</dict>
 			<dict>
 				<key>Allowed URL Patterns</key>
