@@ -74,7 +74,8 @@ enum HTTP {
 				return
 			}
 			let strResponse = data.flatMap({ String(data: $0, encoding: .utf8) })
-			completion([httpResponse.statusCode, strResponse, httpResponse.allHeaderFields, httpResponse.url])
+			let responseURL = httpResponse.url?.absoluteString ?? ""
+			completion([httpResponse.statusCode, strResponse, httpResponse.allHeaderFields, responseURL])
 		}
 		task.resume()
 	}
