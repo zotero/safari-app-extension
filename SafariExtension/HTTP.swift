@@ -58,8 +58,8 @@ enum HTTP {
 		var urlRequest = URLRequest(url: url, timeoutInterval: timeout)
 		urlRequest.httpMethod = method
 		// Setting a Safari User-Agent, since we essentially are contacting from Safari
-		// NB: This is for Safari v13.0.2 and might need to be periodically updated
-		urlRequest.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.2 Safari/605.1.15", forHTTPHeaderField: "User-Agent")
+		// NB: This is for Safari v15.5 and might need to be periodically updated
+		urlRequest.setValue("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15", forHTTPHeaderField: "User-Agent")
 		if let headers = headers {
 			for data in headers {
 				urlRequest.setValue("\(data.value)", forHTTPHeaderField: data.key)
