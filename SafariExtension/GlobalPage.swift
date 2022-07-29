@@ -169,6 +169,8 @@ class GlobalPage: NSObject {
 			return getDefaultLocale(id: id)
 		case "Swift.getDateFormatsJSON":
 			return getDateFormatsJSON(id: id)
+		case "Swift.getFileContents":
+			return getFileContents(with: args, id: id)
 		case "Swift.getPrefs":
 			return getPrefs(id: id)
 		case "Swift.setPrefs":
@@ -349,6 +351,30 @@ class GlobalPage: NSObject {
 			sendMessageToGlobalPage(name: "response", args: dateFormatsJSON, id: messageId)
 		}
 		catch (let error) {
+			print("Error while processing script file: \(error)")
+			return false
+		}
+		return true
+	}
+	
+	private class func getFileContents(with args: Any?, id messageId: Int) -> Bool {
+		guard let args = args as? [Any],
+			  let filepath = args[0] as? String else {
+				  print("Failure: Incorrect arguments in getFileContents")
+				  return false;
+			  }
+		let ext = String(filepath.split(separator: ".").last!);
+		let subpath = filepath.split(separator: "/").dropLast().joined(separator: "/");
+		let filename = String(filepath.split(separator: "/").last!.split(separator: ".").first!);
+		guard let fullpath = Bundle.main.path(forResource: filename, ofType: ext, inDirectory: subpath)
+				?? Bundle.main.path(forResource: filename, ofType: ext, inDirectory: "safari/" + subpath) else {
+					print("Unable to read resource file " + subpath + filename)
+					return false
+				}
+		do {
+			let script = try String(contentsOfFile: fullpath, encoding: String.Encoding.utf8)
+			sendMessageToGlobalPage(name: "response", args: script, id: messageId)
+		} catch (let error) {
 			print("Error while processing script file: \(error)")
 			return false
 		}

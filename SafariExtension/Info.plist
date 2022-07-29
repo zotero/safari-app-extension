@@ -177,6 +177,10 @@
 			</dict>
 			<dict>
 				<key>Script</key>
+				<string>safari/singlefile.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
 				<string>safari/inject/inject.js</string>
 			</dict>
 			<dict>
