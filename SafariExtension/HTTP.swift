@@ -77,12 +77,8 @@ enum HTTP {
 			}
 			let responseURL = httpResponse.url?.absoluteString ?? ""
 			if (responseType == "arraybuffer") {
-				var bytesResponse: [UInt8]? = nil
-				if let unwrappedData = data {
-					bytesResponse = [UInt8](unwrappedData)
-				}
-				
-				completion([httpResponse.statusCode, bytesResponse, httpResponse.allHeaderFields, responseURL])
+				let base64Encoded = data.flatMap({ $0.base64EncodedString(options: .endLineWithLineFeed) })
+				completion([httpResponse.statusCode, base64Encoded, httpResponse.allHeaderFields, responseURL])
 			} else {
 				let strResponse = data.flatMap({ String(data: $0, encoding: .utf8) })
 				completion([httpResponse.statusCode, strResponse, httpResponse.allHeaderFields, responseURL])
