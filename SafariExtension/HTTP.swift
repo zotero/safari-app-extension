@@ -33,12 +33,13 @@ enum HTTP {
 		
 		let options = data["options"] as? [String: Any] ?? [:]
 		let headers = options["headers"] as? [String: Any]
+		let responseType = options["responseType"] as? String ?? ""
 		let body = (options["body"] as? String).flatMap({ $0.data(using: .utf8) })
 		// This is passed in miliseconds instead of seconds from JS
 		let timeout = ((options["timeout"] as? Double) ?? 15000) / 1000
 		
 		self.request(url: url, method: method, headers: headers,
-								body: body, timeout: timeout, completion: completion)
+					 body: body, responseType: responseType, timeout: timeout, completion: completion)
 	}
 	
 	/// Perform a HTTP request.
@@ -53,7 +54,8 @@ enum HTTP {
 	///                         or -2 if Method was not specified.
 	///				1: url (error message)
 	///				2: responseString: String response from the request.
-	static func request(url: URL,	 method: String,	 headers: [String: Any]?, body: Data?, timeout: TimeInterval,
+	static func request(url: URL,	method: String,	headers: [String: Any]?,	body: Data?,
+						responseType: String,	timeout: TimeInterval,
 						completion: @escaping (_ response: [Any?]) -> Void) {
 		var urlRequest = URLRequest(url: url, timeoutInterval: timeout)
 		urlRequest.httpMethod = method
@@ -73,9 +75,18 @@ enum HTTP {
 				completion(["error", ["message": error?.localizedDescription, "name": "SwiftError"]])
 				return
 			}
-			let strResponse = data.flatMap({ String(data: $0, encoding: .utf8) })
 			let responseURL = httpResponse.url?.absoluteString ?? ""
-			completion([httpResponse.statusCode, strResponse, httpResponse.allHeaderFields, responseURL])
+			if (responseType == "arraybuffer") {
+				var bytesResponse: [UInt8]? = nil
+				if let unwrappedData = data {
+					bytesResponse = [UInt8](unwrappedData)
+				}
+				
+				completion([httpResponse.statusCode, bytesResponse, httpResponse.allHeaderFields, responseURL])
+			} else {
+				let strResponse = data.flatMap({ String(data: $0, encoding: .utf8) })
+				completion([httpResponse.statusCode, strResponse, httpResponse.allHeaderFields, responseURL])
+			}
 		}
 		task.resume()
 	}
