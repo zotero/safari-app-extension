@@ -141,7 +141,7 @@
 			</dict>
 			<dict>
 				<key>Script</key>
-				<string>safari/inject/translate_inject.js</string>
+				<string>safari/inject/sandboxManager.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>
