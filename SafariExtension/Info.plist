@@ -37,10 +37,6 @@
 		<array>
 			<dict>
 				<key>Script</key>
-				<string>safari/node_modules.js</string>
-			</dict>
-			<dict>
-				<key>Script</key>
 				<string>safari/zotero_config.js</string>
 			</dict>
 			<dict>

@@ -35,7 +35,7 @@ class GlobalPage: NSObject {
 		// Load the global page JS
 		let globalFiles = [
 			"jscontext_shim.js",
-			"node_modules.js",
+			"url-polyfill.js",
 			"zotero_config.js",
 			"zotero.js",
 			"i18n.js",
