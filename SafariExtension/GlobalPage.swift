@@ -21,7 +21,9 @@ class GlobalPage: NSObject {
 	
 	static var context: JSContext? = {
 		let context = JSContext()
-		context?.isInspectable = true
+		if #available(macOS 13.3, *) {
+			context?.isInspectable = true
+		}
 		context?.exceptionHandler = onError
 
 		// Add setTimeout, setInterval, etc.
