@@ -16,7 +16,6 @@
 		B39AD239229FD14D00F97FA9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AD238229FD14D00F97FA9 /* ViewController.swift */; };
 		B39AD23B229FD14E00F97FA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B39AD23A229FD14E00F97FA9 /* Assets.xcassets */; };
 		B39AD23E229FD14E00F97FA9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B39AD23C229FD14E00F97FA9 /* Main.storyboard */; };
-		B39AD24D229FD1FB00F97FA9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B39AD24C229FD1FB00F97FA9 /* Cocoa.framework */; };
 		B39AD250229FD1FB00F97FA9 /* SafariExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AD24F229FD1FB00F97FA9 /* SafariExtensionHandler.swift */; };
 		B39AD252229FD1FB00F97FA9 /* SafariExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AD251229FD1FB00F97FA9 /* SafariExtensionViewController.swift */; };
 		B39AD255229FD1FB00F97FA9 /* SafariExtensionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B39AD253229FD1FB00F97FA9 /* SafariExtensionViewController.xib */; };
@@ -81,7 +80,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B39AD24D229FD1FB00F97FA9 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +420,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ExtensionApp/ExtensionApp.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 6WWZ59M58H;
@@ -445,6 +444,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ExtensionApp/ExtensionApp.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = 6WWZ59M58H;
@@ -465,13 +465,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SafariExtension/SafariExtension.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6WWZ59M58H;
 				INFOPLIST_FILE = SafariExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
-					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 5.0.106;
 				PRODUCT_BUNDLE_IDENTIFIER = org.zotero.SafariExtensionApp.SafariExtension;
@@ -492,7 +492,6 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
-					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 5.0.106;
 				PRODUCT_BUNDLE_IDENTIFIER = org.zotero.SafariExtensionApp.SafariExtension;
