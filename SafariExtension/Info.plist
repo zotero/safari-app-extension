@@ -129,7 +129,7 @@
 			</dict>
 			<dict>
 				<key>Script</key>
-				<string>safari/translate_item.js</string>
+				<string>safari/translate/translation/translate_item.js</string>
 			</dict>
 			<dict>
 				<key>Script</key>
