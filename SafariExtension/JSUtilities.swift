@@ -1,5 +1,5 @@
 //
-//  JavaScriptInternal.swift
+//  JSUtilities.swift
 //  Lucidchart
 //
 //  Created by Joseph Slinker on 1/23/18.
@@ -12,7 +12,7 @@
 import Foundation
 import JavaScriptCore
 
-class JSInterval: NSObject {
+class JSUtilities: NSObject {
 	
 	private static var intervals: [Int: Timer] = [:]
 	
@@ -32,6 +32,37 @@ class JSInterval: NSObject {
 		}
 		context.setObject(clearInterval, forKeyedSubscript: "clearInterval" as NSString)
 		context.setObject(clearInterval, forKeyedSubscript: "clearTimeout" as NSString)
+		
+		// Base64 encoding/decoding functionality
+		let atob: @convention(block) (String) -> String = { (encodedString: String) in
+			guard let data = Data(base64Encoded: encodedString, options: .ignoreUnknownCharacters) else {
+				return ""
+			}
+			// Create a binary string where each character represents a byte
+			var result = ""
+			for byte in data {
+				result.append(Character(UnicodeScalar(byte)))
+			}
+			return result
+		}
+		context.setObject(atob, forKeyedSubscript: "atob" as NSString)
+		
+		let btoa: @convention(block) (String) -> String = { (binaryString: String) in
+			// Create a Data object where each byte is the ASCII value of each character
+			var bytes = [UInt8]()
+			for char in binaryString {
+				guard let ascii = char.asciiValue else {
+					// JavaScript's btoa throws an exception for non-ASCII characters
+					let context = JSContext.current()
+					context?.exception = JSValue(newErrorFromMessage: "The string to be encoded contains characters outside of the Latin1 range.", in: context)
+					return ""
+				}
+				bytes.append(ascii)
+			}
+			let data = Data(bytes)
+			return data.base64EncodedString()
+		}
+		context.setObject(btoa, forKeyedSubscript: "btoa" as NSString)
 	}
 	
 	private class func setInterval(repeats: Bool, args: [JavaScriptCore.JSValue]) -> Int {

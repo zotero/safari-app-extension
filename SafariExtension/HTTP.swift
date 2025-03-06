@@ -7,41 +7,9 @@
 //
 
 import Foundation
+import JavaScriptCore
 
 enum HTTP {
-	/// Performs a HTTP request from provided data.
-	/// - parameter data: Data for HTTP request. Data has to contain a valid url string and http method.
-	///                   Data can contain additional options for the request, such as headers, body and timeout.
-	/// - parameter completion: Completion block of request.
-	/// - parameter response:
-	/// 				0: statusCode: Response status code. Can be -1 if URL was not specified correctly
-	///                         or -2 if Method was not specified.
-	///				1: url (error message)
-	///				2: responseString: String response from the request.
-	static func request(with data: [String: Any],
-						completion: @escaping (_ response: [Any?]) -> Void) {
-		guard let urlString = data["url"] as? String,
-			  let url = URL(string: urlString) ?? urlString.removingPercentEncoding.flatMap({ $0.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed).flatMap(URL.init) }) else {
-				completion([-1, "missing/incorrect url", nil])
-				return
-		}
-		
-		guard let method = data["method"] as? String else {
-			completion([-2, urlString, nil])
-			return
-		}
-		
-		let options = data["options"] as? [String: Any] ?? [:]
-		let headers = options["headers"] as? [String: Any]
-		let responseType = options["responseType"] as? String ?? ""
-		let body = (options["body"] as? String).flatMap({ $0.data(using: .utf8) })
-		// This is passed in miliseconds instead of seconds from JS
-		let timeout = ((options["timeout"] as? Double) ?? 15000) / 1000
-		
-		self.request(url: url, method: method, headers: headers,
-					 body: body, responseType: responseType, timeout: timeout, completion: completion)
-	}
-	
 	/// Perform a HTTP request.
 	/// - parameter url: URL for the request.
 	/// - parameter method: HTTP method of the request.
@@ -76,14 +44,137 @@ enum HTTP {
 				return
 			}
 			let responseURL = httpResponse.url?.absoluteString ?? ""
-			if (responseType == "arraybuffer") {
-				let base64Encoded = data.flatMap({ $0.base64EncodedString(options: .endLineWithLineFeed) })
-				completion([httpResponse.statusCode, base64Encoded, httpResponse.allHeaderFields, responseURL])
-			} else {
-				let strResponse = data.flatMap({ String(data: $0, encoding: .utf8) })
-				completion([httpResponse.statusCode, strResponse, httpResponse.allHeaderFields, responseURL])
-			}
+			// Always return the raw data regardless of responseType
+			completion([httpResponse.statusCode, data, httpResponse.allHeaderFields, responseURL])
 		}
 		task.resume()
+	}
+	
+	/// JavaScript-compatible HTTP request function that matches Zotero.HTTP.request in http_global.js
+	/// - Parameters:
+	///   - method: HTTP method (GET, POST, etc.)
+	///   - urlString: URL string for the request
+	///   - options: Dictionary of options matching the JavaScript API
+	///   - callback: JavaScript callback function
+	/// - Returns: Nothing, results passed to callback
+	static func jsRequest(_ method: String, _ urlString: String, options: JSValue, callback: JSValue) {
+		// Convert JSValue options to Swift dictionary
+		let optionsDict = options.toDictionary() as? [String: Any] ?? [:]
+		
+		// Set default options
+		let body = options.forProperty("body") as JSValue
+		let headers = optionsDict["headers"] as? [String: Any] ?? [:]
+		let timeout = (optionsDict["timeout"] as? Double ?? 15000) / 1000
+		let responseType = optionsDict["responseType"] as? String ?? ""
+		
+		// Process URL
+		guard let url = URL(string: urlString) ?? urlString.removingPercentEncoding.flatMap({ 
+			$0.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed).flatMap(URL.init) 
+		}) else {
+			callback.call(withArguments: [["error", ["message": "Invalid URL", "name": "InvalidURLError"]]])
+			return
+		}
+		
+		// Process body data
+		let bodyData = HTTP.processBodyData(body)
+		
+		// Make the request
+		request(url: url, method: method, headers: headers, body: bodyData, responseType: responseType, timeout: timeout) { response in
+			if let errorResponse = response.first as? String, errorResponse == "error" {
+				// Error occurred
+				callback.call(withArguments: [response])
+				return
+			}
+			
+			guard let statusCode = response[0] as? Int,
+				  let responseData = response[1] as? Data,
+				  let headers = response[2] as? [AnyHashable: Any],
+				  let responseURL = response[3] as? String else {
+				callback.call(withArguments: [["error", ["message": "Invalid response format", "name": "ResponseError"]]])
+				return
+			}
+			
+			// Process response based on responseType
+			let responseObject: [String: Any]
+			
+			if responseType == "arraybuffer" {
+				// For arraybuffer responses, create a proper JavaScript ArrayBuffer
+				let jsContext = callback.context
+				
+				// Create an ArrayBuffer using the response data
+				let nsData = responseData as NSData
+				let dataLength = responseData.count
+				
+				let bytesDeallocator: JSTypedArrayBytesDeallocator = { (_, _) in
+					// When JavaScript is done with the buffer, this will be called
+					// No explicit deallocation needed - ARC will handle it
+				}
+				
+				// Create a JavaScript ArrayBuffer without copying the bytes
+				let arrayBuffer = JSObjectMakeArrayBufferWithBytesNoCopy(
+					jsContext?.jsGlobalContextRef,
+					UnsafeMutableRawPointer(mutating: nsData.bytes),
+					dataLength,
+					bytesDeallocator,
+					nil,
+					nil
+				)
+				
+				responseObject = [
+					"status": statusCode,
+					"responseText": "",  // Empty string for binary data
+					"response": JSValue(jsValueRef: arrayBuffer, in: jsContext)!,
+					"responseHeaders": headers,
+					"responseURL": responseURL
+				]
+			} else {
+				// Convert data to string for text responses
+				let responseText = String(data: responseData, encoding: .utf8) ?? ""
+				responseObject = [
+					"status": statusCode,
+					"responseText": responseText,
+					"response": responseText,
+					"responseHeaders": headers,
+					"responseURL": responseURL
+				]
+			}
+			
+			callback.call(withArguments: [responseObject])
+		}
+	}
+	
+	/// Converts a JSValue body to Data based on its type
+	/// - Parameter jsBody: The JSValue object that could be a string or ArrayBuffer
+	/// - Returns: Converted Data or nil if conversion fails
+	static func processBodyData(_ jsBody: JSValue?) -> Data? {
+		guard let body = jsBody else { return nil }
+		
+		// Check if JSValue is JavaScript null or undefined
+		if body.isNull || body.isUndefined {
+			return nil
+		}
+		
+		if body.isObject && body.hasProperty("byteLength") {
+			// If it's an ArrayBuffer, directly access its bytes
+			guard let jsContextRef = body.context.jsGlobalContextRef else { return nil }
+			
+			// Convert JSValue to JSObjectRef for use with ArrayBuffer APIs
+			guard let jsObjectRef = JSValueToObject(jsContextRef, body.jsValueRef, nil) else {
+				print("Failed to convert JSValue to JSObjectRef")
+				return nil
+			}
+			
+			guard let rawPointer = JSObjectGetArrayBufferBytesPtr(jsContextRef, jsObjectRef, nil) else {
+				print("Failed to get ArrayBuffer bytes")
+				return nil
+			}
+			
+			// Convert to Data by copying bytes
+			return Data(bytes: rawPointer, count: Int(truncating: body.forProperty("byteLength").toNumber()))
+		} else if let bodyString = body.toString() {
+			return bodyString.data(using: .utf8)
+		}
+		
+		return nil
 	}
 }

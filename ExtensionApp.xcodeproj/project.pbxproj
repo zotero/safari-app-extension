@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A744A0A2D75B78C00F90683 /* JSUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A744A092D75B78C00F90683 /* JSUtilities.swift */; };
 		7A9DC8DF2373117C005F6EAD /* GlobalPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9DC8DB2373117C005F6EAD /* GlobalPage.swift */; };
-		7A9DC8E02373117C005F6EAD /* JavaScriptInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9DC8DC2373117C005F6EAD /* JavaScriptInterval.swift */; };
 		7A9DC8E12373117C005F6EAD /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9DC8DD2373117C005F6EAD /* HTTP.swift */; };
 		7A9DC8E22373117C005F6EAD /* TabManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9DC8DE2373117C005F6EAD /* TabManager.swift */; };
 		7AA1B01B2373137B002CEECF /* safari in Resources */ = {isa = PBXBuildFile; fileRef = 7AA1B01A2373137B002CEECF /* safari */; };
@@ -47,8 +47,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7A744A092D75B78C00F90683 /* JSUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSUtilities.swift; sourceTree = "<group>"; };
 		7A9DC8DB2373117C005F6EAD /* GlobalPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalPage.swift; sourceTree = "<group>"; };
-		7A9DC8DC2373117C005F6EAD /* JavaScriptInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JavaScriptInterval.swift; sourceTree = "<group>"; };
 		7A9DC8DD2373117C005F6EAD /* HTTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		7A9DC8DE2373117C005F6EAD /* TabManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabManager.swift; sourceTree = "<group>"; };
 		7AA1B01A2373137B002CEECF /* safari */ = {isa = PBXFileReference; lastKnownFileType = folder; name = safari; path = "../zotero-connectors/build/safari"; sourceTree = "<group>"; };
@@ -130,9 +130,9 @@
 		B39AD24E229FD1FB00F97FA9 /* SafariExtension */ = {
 			isa = PBXGroup;
 			children = (
+				7A744A092D75B78C00F90683 /* JSUtilities.swift */,
 				7A9DC8DB2373117C005F6EAD /* GlobalPage.swift */,
 				7A9DC8DD2373117C005F6EAD /* HTTP.swift */,
-				7A9DC8DC2373117C005F6EAD /* JavaScriptInterval.swift */,
 				7A9DC8DE2373117C005F6EAD /* TabManager.swift */,
 				B39AD24F229FD1FB00F97FA9 /* SafariExtensionHandler.swift */,
 				B39AD251229FD1FB00F97FA9 /* SafariExtensionViewController.swift */,
@@ -262,8 +262,8 @@
 				7A9DC8E12373117C005F6EAD /* HTTP.swift in Sources */,
 				B39AD252229FD1FB00F97FA9 /* SafariExtensionViewController.swift in Sources */,
 				7A9DC8DF2373117C005F6EAD /* GlobalPage.swift in Sources */,
+				7A744A0A2D75B78C00F90683 /* JSUtilities.swift in Sources */,
 				B39AD250229FD1FB00F97FA9 /* SafariExtensionHandler.swift in Sources */,
-				7A9DC8E02373117C005F6EAD /* JavaScriptInterval.swift in Sources */,
 				7A9DC8E22373117C005F6EAD /* TabManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
