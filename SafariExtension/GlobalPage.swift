@@ -27,13 +27,19 @@ class GlobalPage: NSObject {
 		context?.exceptionHandler = onError
 
 		// Add setTimeout, setInterval, etc.
-		JSInterval.provideToContext(context: context!)
+		JSUtilities.provideToContext(context: context!)
 
 		// Add console.log
 		context?.setObject(consoleLog, forKeyedSubscript: "_consoleLog" as NSString)
 
 		// Add the message handler
 		context?.setObject(sendMessageToTab, forKeyedSubscript: "sendMessage" as NSString)
+		
+		// Add direct HTTP request method to match the JavaScript API
+		let httpRequestHandler: @convention(block) (String, String, JSValue, JSValue) -> Void = { method, url, options, callback in
+			HTTP.jsRequest(method, url, options: options, callback: callback)
+		}
+		context?.setObject(httpRequestHandler, forKeyedSubscript: "_httpRequest" as NSString)
 
 		// Load the global page JS
 		let globalFiles = [
@@ -61,6 +67,7 @@ class GlobalPage: NSObject {
 			"translate/debug.js",
 			"translate/tlds.js",
 			"translate/translator.js",
+			"itemSaver_background.js",
 			"translators.js",
 			"zotero-google-docs-integration/api.js",
 			"cachedTypes.js",
@@ -130,15 +137,6 @@ class GlobalPage: NSObject {
 		// Some requests are handled in swift
 		//		print("Received \(name) \(id)")
 		switch name {
-		case "HTTP.request":
-			guard let args = args as? [String: Any] else {
-				print("Failure: Incorrect arguments in \(name)")
-				return false
-			}
-			HTTP.request(with: args) { response in
-				sendMessageToGlobalPage(name: "response", args: response, id: id)
-			}
-			return true
 		case "Swift.openWindow":
 			return openWindow(with: args)
 		case "Swift.openTab":
