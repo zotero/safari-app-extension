@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A3694112E38BF250044D89C /* TextEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3694102E38BF250044D89C /* TextEncoder.swift */; };
 		7A744A0A2D75B78C00F90683 /* JSUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A744A092D75B78C00F90683 /* JSUtilities.swift */; };
 		7A9DC8DF2373117C005F6EAD /* GlobalPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9DC8DB2373117C005F6EAD /* GlobalPage.swift */; };
 		7A9DC8E12373117C005F6EAD /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9DC8DD2373117C005F6EAD /* HTTP.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7A3694102E38BF250044D89C /* TextEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEncoder.swift; sourceTree = "<group>"; };
 		7A744A092D75B78C00F90683 /* JSUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSUtilities.swift; sourceTree = "<group>"; };
 		7A9DC8DB2373117C005F6EAD /* GlobalPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalPage.swift; sourceTree = "<group>"; };
 		7A9DC8DD2373117C005F6EAD /* HTTP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		B39AD24E229FD1FB00F97FA9 /* SafariExtension */ = {
 			isa = PBXGroup;
 			children = (
+				7A3694102E38BF250044D89C /* TextEncoder.swift */,
 				7A744A092D75B78C00F90683 /* JSUtilities.swift */,
 				7A9DC8DB2373117C005F6EAD /* GlobalPage.swift */,
 				7A9DC8DD2373117C005F6EAD /* HTTP.swift */,
@@ -261,6 +264,7 @@
 			files = (
 				7A9DC8E12373117C005F6EAD /* HTTP.swift in Sources */,
 				B39AD252229FD1FB00F97FA9 /* SafariExtensionViewController.swift in Sources */,
+				7A3694112E38BF250044D89C /* TextEncoder.swift in Sources */,
 				7A9DC8DF2373117C005F6EAD /* GlobalPage.swift in Sources */,
 				7A744A0A2D75B78C00F90683 /* JSUtilities.swift in Sources */,
 				B39AD250229FD1FB00F97FA9 /* SafariExtensionHandler.swift in Sources */,

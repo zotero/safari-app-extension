@@ -41,6 +41,9 @@ class GlobalPage: NSObject {
 		}
 		context?.setObject(httpRequestHandler, forKeyedSubscript: "_httpRequest" as NSString)
 
+		// Add TextEncoder API
+		TextEncoderAPI().registerAPIInto(context: context!)
+
 		// Load the global page JS
 		let globalFiles = [
 			"jscontext_shim.js",
