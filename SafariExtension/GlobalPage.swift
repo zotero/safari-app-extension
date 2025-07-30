@@ -103,8 +103,8 @@ class GlobalPage: NSObject {
 		return context
 	}()
 	
-	static func sendMessageToGlobalPage(name: String, args: Any = [], id: Int? = nil, page: SFSafariPage? = nil) {
-		let id = id ?? UUID().hashValue
+	static func sendMessageToGlobalPage(name: String, args: Any = [], id: String? = nil, page: SFSafariPage? = nil) {
+		let id = id ?? name + "_" + UUID().uuidString
 
 		if let page = page {
 			page.getContainingTab() { tab in
@@ -133,7 +133,7 @@ class GlobalPage: NSObject {
 	// Called from the global page to communicate with safari injected scripts
 	private static let sendMessageToTab: @convention(block) (Any, Any, Any?, Int) -> (Bool) = { (name: Any, id: Any, args: Any?, tabId: Int?) in
 		guard let name = name as? String,
-			let id = id as? Int else {
+			let id = id as? String else {
 				print("Failure: Incorrect arguments in sendMessageToTab")
 				return false
 		}
@@ -320,7 +320,7 @@ class GlobalPage: NSObject {
 		}
 	}
 	
-	private class func getCurrentLocale(id messageId: Int) -> Bool {
+	private class func getCurrentLocale(id messageId: String) -> Bool {
 		var languageCode = Locale.current.languageCode ?? "en"
 		if Locale.preferredLanguages.count > 0 {
 			languageCode = String(Locale.preferredLanguages[0].split(separator: "-").first!	)
@@ -334,7 +334,7 @@ class GlobalPage: NSObject {
 		return false
 	}
 	
-	private class func getDefaultLocale(id messageId: Int) -> Bool {
+	private class func getDefaultLocale(id messageId: String) -> Bool {
 		let localeJSON = getLocale(languageCode: "en")
 		if (localeJSON != "") {
 			sendMessageToGlobalPage(name: "response", args: localeJSON, id: messageId)
@@ -344,7 +344,7 @@ class GlobalPage: NSObject {
 		return false
 	}
 	
-	private class func getDateFormatsJSON(id messageId: Int) -> Bool {
+	private class func getDateFormatsJSON(id messageId: String) -> Bool {
 		guard let fullpath = Bundle.main.path(forResource: "dateFormats", ofType: "json", inDirectory: "safari/utilities/resource") else {
 			print("Unable to read locale file")
 			return false
@@ -361,7 +361,7 @@ class GlobalPage: NSObject {
 		return true
 	}
 	
-	private class func getFileContents(with args: Any?, id messageId: Int) -> Bool {
+	private class func getFileContents(with args: Any?, id messageId: String) -> Bool {
 		guard let args = args as? [Any],
 			  let filepath = args[0] as? String else {
 				  print("Failure: Incorrect arguments in getFileContents")
@@ -385,13 +385,13 @@ class GlobalPage: NSObject {
 		return true
 	}
 	
-	private class func getPrefs(id messageId: Int) -> Bool {
+	private class func getPrefs(id messageId: String) -> Bool {
 		let prefs = UserDefaults.standard.string(forKey: PREFS_KEY) ?? "{}"
 		sendMessageToGlobalPage(name: "response", args: prefs, id: messageId)
 		return true
 	}
 	
-	private class func setPrefs(_ args: Any?, id messageId: Int) -> Bool {
+	private class func setPrefs(_ args: Any?, id messageId: String) -> Bool {
 		guard let prefs = args as? String else {
 			print("Failure: Incorrect arguments in setPrefs")
 			return false
