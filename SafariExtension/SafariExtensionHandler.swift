@@ -26,11 +26,13 @@ class SafariExtensionHandler: SFSafariExtensionHandler {
 	
     override func messageReceived(withName messageName: String, from page: SFSafariPage, userInfo: [String : Any]?) {
 		guard let message = userInfo?["message"] as? String,
-			let messageID = userInfo?["messageId"] as? Int,
-			let args = userInfo?["args"] as Any?
+			let messageID = userInfo?["messageId"] as? String
 		else {
 			return
 		}
+		// We don't guard this because if the args are undefined on JS side
+		// it will cast to Nil and the guard above will fail when it should succeed
+		let args = userInfo?["args"]
         switch message {
 		case "Connector_Browser.onPageLoad":
 			guard var args = args as? [Any] else {
