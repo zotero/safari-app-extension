@@ -106,6 +106,9 @@ class GlobalPage: NSObject {
 	static func sendMessageToGlobalPage(name: String, args: Any = [], id: String? = nil, page: SFSafariPage? = nil) {
 		let id = id ?? name + "_" + UUID().uuidString
 
+//		let argsString = (args as? String) ?? String(describing: args)
+//		let truncatedArgs = argsString.count > 100 ? String(argsString.prefix(97)) + "..." : argsString
+//		print("Sending message to global \(id) \(truncatedArgs)")
 		if let page = page {
 			page.getContainingTab() { tab in
 				// print("Sending message to global \(id) \(args as? String)")
@@ -124,7 +127,6 @@ class GlobalPage: NSObject {
 					GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
 					return
 				}
-				//						print("Sending message to global \(id) \(args as? String)")
 				GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
 			}
 		}
@@ -138,7 +140,7 @@ class GlobalPage: NSObject {
 				return false
 		}
 		// Some requests are handled in swift
-		//		print("Received \(name) \(id)")
+		// print("Received \(name) \(id)")
 		switch name {
 		case "Swift.openWindow":
 			return openWindow(with: args)

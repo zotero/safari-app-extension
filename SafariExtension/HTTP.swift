@@ -44,8 +44,12 @@ enum HTTP {
 				return
 			}
 			let responseURL = httpResponse.url?.absoluteString ?? ""
-			// Always return the raw data regardless of responseType
-			completion([httpResponse.statusCode, data, httpResponse.allHeaderFields, responseURL])
+			// Ensure the callback runs in the main queue where jscontext lives
+			// or we risk corrupting the context and memory
+			DispatchQueue.main.async {
+				// Always return the raw data regardless of responseType
+				completion([httpResponse.statusCode, data, httpResponse.allHeaderFields, responseURL])
+			}
 		}
 		task.resume()
 	}
@@ -87,9 +91,9 @@ enum HTTP {
 			}
 			
 			guard let statusCode = response[0] as? Int,
-				  let responseData = response[1] as? Data,
-				  let headers = response[2] as? [AnyHashable: Any],
-				  let responseURL = response[3] as? String else {
+					let responseData = response[1] as? Data,
+					let headers = response[2] as? [AnyHashable: Any],
+					let responseURL = response[3] as? String else {
 				callback.call(withArguments: [["error", ["message": "Invalid response format", "name": "ResponseError"]]])
 				return
 			}
@@ -105,9 +109,13 @@ enum HTTP {
 				let nsData = responseData as NSData
 				let dataLength = responseData.count
 				
-				let bytesDeallocator: JSTypedArrayBytesDeallocator = { (_, _) in
-					// When JavaScript is done with the buffer, this will be called
-					// No explicit deallocation needed - ARC will handle it
+				// Retain the NSData for the lifetime of the JS ArrayBuffer; release in deallocator
+				let retained = Unmanaged<NSData>.passRetained(nsData)
+				let ctx = UnsafeMutableRawPointer(retained.toOpaque())
+				let deallocator: JSTypedArrayBytesDeallocator = { (_, deallocatorContext) in
+					if let deallocatorContext = deallocatorContext {
+						Unmanaged<NSData>.fromOpaque(deallocatorContext).release()
+					}
 				}
 				
 				// Create a JavaScript ArrayBuffer without copying the bytes
@@ -115,8 +123,8 @@ enum HTTP {
 					jsContext?.jsGlobalContextRef,
 					UnsafeMutableRawPointer(mutating: nsData.bytes),
 					dataLength,
-					bytesDeallocator,
-					nil,
+					deallocator,
+					ctx,
 					nil
 				)
 				

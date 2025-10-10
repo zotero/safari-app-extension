@@ -433,6 +433,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				MARKETING_VERSION = 5.0.106;
 				PRODUCT_BUNDLE_IDENTIFIER = org.zotero.SafariExtensionApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -457,6 +458,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				MARKETING_VERSION = 5.0.106;
 				PRODUCT_BUNDLE_IDENTIFIER = org.zotero.SafariExtensionApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -477,6 +479,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				MARKETING_VERSION = 5.0.106;
 				PRODUCT_BUNDLE_IDENTIFIER = org.zotero.SafariExtensionApp.SafariExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -497,6 +500,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				MARKETING_VERSION = 5.0.106;
 				PRODUCT_BUNDLE_IDENTIFIER = org.zotero.SafariExtensionApp.SafariExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
