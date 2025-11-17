@@ -21,7 +21,9 @@ class SafariExtensionHandler: SFSafariExtensionHandler {
 		// otherwise the garbage collector deallocates tabs and
 		// pages while lazy instantiating it and we run into
 		// illegal memory access issues
-		_ = GlobalPage._sendMessageToGlobalPage
+		Task { @MainActor in
+			_ = GlobalPage._sendMessageToGlobalPage
+		}
 	}
 	
     override func messageReceived(withName messageName: String, from page: SFSafariPage, userInfo: [String : Any]?) {

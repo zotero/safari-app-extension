@@ -15,10 +15,13 @@ let PREFS_KEY = "ConnectorPrefs"
 class GlobalPage: NSObject {
 	static var translators: [[String]] = []
 	
+	// Make sure this is only ever executed on the main thread where we initialize it
+	// otherwise the behaviour is undefined and easily reads to freezing of the whole extension
+	@MainActor
 	static var _sendMessageToGlobalPage: JavaScriptCore.JSValue? = {
-		context?.evaluateScript("Zotero.Messaging.receiveSwiftMessage");
+		context?.evaluateScript("Zotero.Messaging.receiveSwiftMessage")
 	}()
-	
+
 	static var context: JSContext? = {
 		let context = JSContext()
 		if #available(macOS 13.3, *) {
@@ -111,23 +114,30 @@ class GlobalPage: NSObject {
 //		print("Sending message to global \(id) \(truncatedArgs)")
 		if let page = page {
 			page.getContainingTab() { tab in
-				// print("Sending message to global \(id) \(args as? String)")
-				GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
+				Task { @MainActor in
+					GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
+				}
 			}
 			return
 		}
 
 		getActiveWindow { window in
 			guard let window = window else {
-				GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
+				Task { @MainActor in
+					GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
+				}
 				return
 			}
 			window.getActiveTab { tab in
 				guard let tab = tab else {
-					GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
+					Task { @MainActor in
+						GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, -1])
+					}
 					return
 				}
-				GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
+				Task { @MainActor in
+					GlobalPage._sendMessageToGlobalPage?.call(withArguments: [name, id, args, TabManager.getTabId(tab)])
+				}
 			}
 		}
 	}
