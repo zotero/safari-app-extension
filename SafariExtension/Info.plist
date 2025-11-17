@@ -181,6 +181,18 @@
 			</dict>
 			<dict>
 				<key>Script</key>
+				<string>safari/itemSaver.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/translateWeb.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
+				<string>safari/inject/pageSaving.js</string>
+			</dict>
+			<dict>
+				<key>Script</key>
 				<string>safari/inject/inject.js</string>
 			</dict>
 			<dict>
