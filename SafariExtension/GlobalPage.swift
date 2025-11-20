@@ -195,6 +195,8 @@ class GlobalPage: NSObject {
 			return updateButton(args, tabId: tabId)
 		case "Swift.globalAvailable":
 			return sendGlobalAvailableToAllTabs()
+		case "Swift.openZotero":
+			return openZotero()
 		default:
 			break
 		}
@@ -442,6 +444,37 @@ class GlobalPage: NSObject {
 		}
 
 		return true
+	}
+
+	private class func openZotero() -> Bool {
+		let workspace = NSWorkspace.shared
+		
+		// Prefer stable; fall back to beta only if stable bundle is not found
+		let stableURL = workspace.urlForApplication(withBundleIdentifier: "org.zotero.zotero")
+		let betaURL = workspace.urlForApplication(withBundleIdentifier: "org.zotero.zotero-beta")
+		
+		guard let appURL = stableURL ?? betaURL else {
+			print("Zotero app not found (stable and beta).")
+			return false
+		}
+		
+		let config = NSWorkspace.OpenConfiguration()
+		
+		var didSucceed = false
+		let semaphore = DispatchSemaphore(value: 0)
+		
+		workspace.openApplication(at: appURL, configuration: config) { runningApp, error in
+			if let error = error {
+                print("Failed to launch app:", error)
+				didSucceed = false
+			} else {
+				didSucceed = (runningApp != nil)
+			}
+			semaphore.signal()
+		}
+		
+		_ = semaphore.wait(timeout: .now() + 5)
+		return didSucceed
 	}
 	
 	private class func sendGlobalAvailableToAllTabs() -> Bool {
